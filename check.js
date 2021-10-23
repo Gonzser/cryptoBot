@@ -16,7 +16,7 @@ const exchange = new ccxt.binance ({
 //     console.log (await exchange.fetchBalance ())
 //     console.log (await exchange.has ())
 // })
-const assetBalance = Math.floor(exchange.fetchBalance(), 2)
+const assetBalance = exchange.fetchBalance().toFixed(8)
 // const sellVolume = assetBalance * allocation;
 // const buyVolume = (baseBalance * allocation) / marketPrice;
 console.log(exchange.fetchBalance ());

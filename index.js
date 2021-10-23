@@ -9,11 +9,10 @@ const tick = async(config, binanceClient) => {
   const orders = await binanceClient.fetchOpenOrders(market);
   orders.forEach(async order => {
     await binanceClient.cancelOrder(order.id, order.symbol);
-  console.log(order.id);
-  console.log(order.symbol);
+    console.log(order.id);
+    console.log(order.symbol);
   });
-  console.log(orders);
-  console.log(orders.id);
+
 
   const results = await Promise.all([
     axios.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"),
@@ -31,7 +30,7 @@ const tick = async(config, binanceClient) => {
 
   //check minimal balance to buy or sell
   await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice);
-  await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice);
+  // await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice);
 
   console.log(`
     New tick for ${market} ...
