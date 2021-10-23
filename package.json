@@ -1,0 +1,26 @@
+{
+  "name": "cryptobot",
+  "version": "1.0.0",
+  "description": "Crypto bot to trade BTC on Binance with webapp on NodeJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "cryptobot"
+  },
+  "keywords": [
+    "cryptobot",
+    "binance",
+    "nodejs",
+    "eattheblocks"
+  ],
+  "author": "ccgonzser",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "ccxt": "^1.58.87",
+    "dotenv": "^10.0.0"
+  }
+}
