@@ -11,6 +11,9 @@
 # production
 /build
 
+# the same gitignore
+.gitignore
+
 # misc
 .env
 .DS_Store

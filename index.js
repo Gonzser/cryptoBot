@@ -7,10 +7,13 @@ const tick = async(config, binanceClient) => {
   const market =  `${asset}/${base}`;
 
   const orders = await binanceClient.fetchOpenOrders(market);
-  // orders.forEach(async order => {
-  //   await binanceClient.cancelOrder(order.id);
-  // });
+  orders.forEach(async order => {
+    await binanceClient.cancelOrder(order.id, order.symbol);
+  console.log(order.id);
+  console.log(order.symbol);
+  });
   console.log(orders);
+  console.log(orders.id);
 
   const results = await Promise.all([
     axios.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"),
@@ -21,13 +24,14 @@ const tick = async(config, binanceClient) => {
   const sellPrice = marketPrice * (1 + spread);
   const buyPrice = marketPrice * (1 - spread);
   const balances = await binanceClient.fetchBalance();
-  const assetBalance = balances.free[asset];
-  const baseBalance = balances.free[base];
-  const sellVolume = assetBalance * allocation;
-  const buyVolume = (baseBalance * allocation) / marketPrice;
+  const assetBalance = balances.free[asset].toFixed(8);
+  const baseBalance = balances.free[base].toFixed(8);
+  const sellVolume = (assetBalance * allocation).toFixed(8);
+  const buyVolume = ((baseBalance * allocation) / marketPrice).toFixed(8);
 
-  // await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice);
-  // await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice);
+  //check minimal balance to buy or sell
+  await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice);
+  await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice);
 
   console.log(`
     New tick for ${market} ...
@@ -44,7 +48,7 @@ const run = () => {
     base: 'USDT',
     allocation: 0.1,
     spread: 0.2,
-    tickInterval: 2000
+    tickInterval: 60000
   };
 
   // //update from ccxt.master
